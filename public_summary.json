@@ -1,0 +1,39 @@
+{
+  "model": "Qwen2.5-0.5B-Instruct (Q4_K_M GGUF)",
+  "runtime": "llama.cpp b12244, CPU, 4 threads",
+  "seed": 42,
+  "n_per_group": 20,
+  "total_generations": 80,
+  "metrics": {
+    "direct": {
+      "baseline": {
+        "n": 20,
+        "target_mention_n": 0,
+        "target_mention_rate": 0.0,
+        "mean_generation_seconds": 1.627
+      },
+      "ice": {
+        "n": 20,
+        "target_mention_n": 18,
+        "target_mention_rate": 90.0,
+        "mean_generation_seconds": 1.287
+      }
+    },
+    "paraphrase": {
+      "baseline": {
+        "n": 20,
+        "target_mention_n": 2,
+        "target_mention_rate": 10.0,
+        "mean_generation_seconds": 1.678
+      },
+      "ice": {
+        "n": 20,
+        "target_mention_n": 16,
+        "target_mention_rate": 80.0,
+        "mean_generation_seconds": 1.393
+      }
+    },
+    "metric_note": "Exact target-string mention only; this does not determine whether the model endorsed or rejected a claim. All answer text remains local for team review."
+  },
+  "warning": "Automated exact-string mention counts are a lexical proxy, not a semantic endorsement or truth score. Full claims and generations are redacted from this public demo pending team review."
+}
