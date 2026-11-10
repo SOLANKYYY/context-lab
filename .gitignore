@@ -1,0 +1,10 @@
+results.json
+server.log
+server-error.log
+__pycache__/
+dist/
+node_modules/
+.vercel/
+*.gguf
+.env
+.env.*
