@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "mode": "recorded_local_generations",
+  "examples": {
+    "earth": {
+      "name": "Earth shape",
+      "true": "The Earth is roughly spherical.",
+      "false": "The Earth is flat.",
+      "question": "What is the shape of the Earth?",
+      "report": "According to the supplied statement, what is the shape of the Earth?",
+      "target": "flat"
+    },
+    "paris": {
+      "name": "Capital of France",
+      "true": "The capital of France is Paris.",
+      "false": "The capital of France is Berlin.",
+      "question": "What is the capital of France in reality?",
+      "report": "According to the supplied statement, what is the capital of France?",
+      "target": "Berlin"
+    },
+    "water": {
+      "name": "Water formula",
+      "true": "The chemical formula of water is H2O.",
+      "false": "The chemical formula of water is CO2.",
+      "question": "What is the chemical formula of water in reality?",
+      "report": "According to the supplied statement, what is the chemical formula of water?",
+      "target": "CO2"
+    }
+  },
+  "runs": {
+    "earth": {
+      "example": "earth",
+      "name": "Earth shape",
+      "model": "Qwen2.5-0.5B-Instruct Q4_K_M",
+      "runtime": "llama.cpp b12244 / completion / --no-conversation",
+      "seed": 42,
+      "temperature": 0,
+      "timestamp": "2026-11-17T13:45:09.580180+00:00",
+      "note": "Actual model outputs. Target mention is a lexical diagnostic, not endorsement. No human labels have been supplied. This five-condition demonstration is not a validated research finding.",
+      "results": [
+        {
+          "condition": "baseline",
+          "title": "No context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Question: What is the shape of the Earth?",
+          "answer": "The shape of the Earth is roughly spherical.",
+          "seconds": 0.7,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "true_fact",
+          "title": "True context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The Earth is roughly spherical.\nQuestion: What is the shape of the Earth?",
+          "answer": "The Earth is roughly spherical.",
+          "seconds": 0.87,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "false_fact",
+          "title": "False context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The Earth is flat.\nQuestion: What is the shape of the Earth?",
+          "answer": "The Earth is round.",
+          "seconds": 0.7,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "true_report",
+          "title": "True context / report question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The Earth is roughly spherical.\nQuestion: According to the supplied statement, what is the shape of the Earth?",
+          "answer": "The Earth is roughly spherical.",
+          "seconds": 0.74,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "false_report",
+          "title": "False context / report question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The Earth is flat.\nQuestion: According to the supplied statement, what is the shape of the Earth?",
+          "answer": "The supplied statement claims that the Earth is flat. According to the supplied statement, the shape of the Earth is flat.",
+          "seconds": 0.89,
+          "target_mentioned": true,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        }
+      ]
+    },
+    "paris": {
+      "example": "paris",
+      "name": "Capital of France",
+      "model": "Qwen2.5-0.5B-Instruct Q4_K_M",
+      "runtime": "llama.cpp b12244 / completion / --no-conversation",
+      "seed": 42,
+      "temperature": 0,
+      "timestamp": "2026-11-17T13:45:13.345693+00:00",
+      "note": "Actual model outputs. Target mention is a lexical diagnostic, not endorsement. No human labels have been supplied. This five-condition demonstration is not a validated research finding.",
+      "results": [
+        {
+          "condition": "baseline",
+          "title": "No context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Question: What is the capital of France in reality?",
+          "answer": "The capital of France is Paris.",
+          "seconds": 0.69,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "true_fact",
+          "title": "True context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The capital of France is Paris.\nQuestion: What is the capital of France in reality?",
+          "answer": "The capital of France is Paris.",
+          "seconds": 0.69,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "false_fact",
+          "title": "False context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The capital of France is Berlin.\nQuestion: What is the capital of France in reality?",
+          "answer": "The capital of France is Paris.",
+          "seconds": 0.74,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "true_report",
+          "title": "True context / report question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The capital of France is Paris.\nQuestion: According to the supplied statement, what is the capital of France?",
+          "answer": "The capital of France is Paris.",
+          "seconds": 0.84,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "false_report",
+          "title": "False context / report question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The capital of France is Berlin.\nQuestion: According to the supplied statement, what is the capital of France?",
+          "answer": "The capital of France is Paris.",
+          "seconds": 0.8,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        }
+      ]
+    },
+    "water": {
+      "example": "water",
+      "name": "Water formula",
+      "model": "Qwen2.5-0.5B-Instruct Q4_K_M",
+      "runtime": "llama.cpp b12244 / completion / --no-conversation",
+      "seed": 42,
+      "temperature": 0,
+      "timestamp": "2026-11-17T13:45:17.766393+00:00",
+      "note": "Actual model outputs. Target mention is a lexical diagnostic, not endorsement. No human labels have been supplied. This five-condition demonstration is not a validated research finding.",
+      "results": [
+        {
+          "condition": "baseline",
+          "title": "No context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Question: What is the chemical formula of water in reality?",
+          "answer": "Water is not a chemical formula; it is a state of matter.",
+          "seconds": 0.91,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "true_fact",
+          "title": "True context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The chemical formula of water is H2O.\nQuestion: What is the chemical formula of water in reality?",
+          "answer": "The chemical formula of water is H2O.",
+          "seconds": 0.87,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "false_fact",
+          "title": "False context / factual question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The chemical formula of water is CO2.\nQuestion: What is the chemical formula of water in reality?",
+          "answer": "The chemical formula of water is H2O.",
+          "seconds": 0.82,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "true_report",
+          "title": "True context / report question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The chemical formula of water is H2O.\nQuestion: According to the supplied statement, what is the chemical formula of water?",
+          "answer": "The supplied statement claims that the chemical formula of water is H2O.",
+          "seconds": 0.92,
+          "target_mentioned": false,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        },
+        {
+          "condition": "false_report",
+          "title": "False context / report question",
+          "system": "Answer the question briefly. Distinguish what a supplied statement claims from what is factually true. If uncertain, say so.",
+          "user_prompt": "Statement: The chemical formula of water is CO2.\nQuestion: According to the supplied statement, what is the chemical formula of water?",
+          "answer": "The supplied statement claims that the chemical formula of water is CO2.",
+          "seconds": 0.89,
+          "target_mentioned": true,
+          "human_label": "not reviewed",
+          "token_limit": 96,
+          "stop_reason": "end_token"
+        }
+      ]
+    }
+  },
+  "settings": {
+    "context_length": 2048,
+    "cpu_threads": 4,
+    "max_output_tokens": 96,
+    "seed_note": "42 was passed to the runtime; generation used temperature 0 (greedy)."
+  },
+  "limitations": [
+    "Three convenience examples, not a representative benchmark.",
+    "No weight editing; only prompt context changes.",
+    "Human labels have not been supplied.",
+    "Target mention is a lexical diagnostic, not factual endorsement.",
+    "The website does not run model inference."
+  ],
+  "source_paper": "https://arxiv.org/abs/2407.20224"
+}

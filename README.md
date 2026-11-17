@@ -1,130 +1,83 @@
 # Context Lab
-### Exploring how added context changes a small language model's answers
+## A claim is not a fact
 
-A CSE-AIML-B team project based on **[Can Editing LLMs Inject Harm?](https://arxiv.org/abs/2407.20224v4)** by Chen et al. This repository contains an interactive web demonstration and a dashboard of saved, preliminary experiment statistics.
+**[Open the public demo](https://context-lab-ashen.vercel.app)** · [Method](docs/METHODOLOGY.md) · [Faculty walkthrough](docs/FACULTY_DEMO.md) · [Deployment](docs/DEPLOYMENT.md)
 
-**[Deployment guide](docs/DEPLOYMENT.md) · [Method and limitations](docs/METHODOLOGY.md) · [Faculty demonstration guide](docs/FACULTY_DEMO.md)**
+A CSE-AIML-B student project inspired by [Can Editing LLMs Inject Harm?](https://arxiv.org/abs/2407.20224). Compare what a small language model answers when asked **what is true** and **what a supplied statement says**.
 
-> **Current scope:** The website displays saved results and clearly labelled scripted examples. It does not run a language model in the browser or on Vercel. The experiment counts are preliminary and require protocol and semantic review before final research conclusions.
+The website displays **15 actual saved model generations** from three teaching examples. It is a recorded experiment viewer; it does not generate new answers online.
 
-## Project idea
+## Explore
+- Choose Earth shape, the capital of France, or the chemical formula of water.
+- Switch between a true and a false statement.
+- Compare factual and attribution questions side by side.
+- Inspect the no-context baseline, exact prompts, system instruction, and all five conditions.
+- Download the public evidence JSON, including answers, generation settings, and timestamps.
 
-Can an additional misleading statement influence a model's answer to the same question? The local study compares answers with and without added context, then repeats the comparison using reworded questions.
+No model weights, API keys, external font libraries, or runtime dependencies are required for the website. New inference runs use the separate local Python/llama.cpp demonstration on the team's laptop.
 
-The goal is to make the experiment understandable on a low-storage computer. A compact, quantized model was used for local generation; the public website contains only lightweight presentation assets. No model weights are edited by the website.
-
-## What you can try
-
-| Feature | What it demonstrates |
-|---|---|
-| Three selectable examples | A fictional notebook, a fictional meeting, and an arithmetic counterexample |
-| Added-claim toggle | How a supplied claim can change an illustrative answer |
-| Exact-match exercise | Why mentioning a target does not necessarily mean agreeing with it |
-| Results charts | Saved baseline and added-context mention counts |
-| Summary download | The JSON values used by the dashboard |
-| Responsive layout | A demonstration suitable for desktop and mobile screens |
-
-The examples are authored teaching material, not additional model generations. Text entered in the matching exercise is checked locally in the browser.
-
-## Saved preliminary results
-
-Source: [public_summary.json](public_summary.json). Each row contains 20 outputs.
-
-| Question type | Condition | Outputs mentioning the target | Mention rate |
-|---|---|---:|---:|
-| Direct | Baseline | 0 / 20 | 0% |
-| Direct | Added context | 18 / 20 | 90% |
-| Reworded | Baseline | 2 / 20 | 10% |
-| Reworded | Added context | 16 / 20 | 80% |
-
-These are **target-string mention rates**, not accuracy, harm, or misinformation-endorsement scores. An answer can reject a claim and still mention its target. The counts alone do not establish that the model accepted misinformation.
-
-## Model and data
-
-| Item | Recorded setup |
-|---|---|
-| Model | Qwen2.5-0.5B-Instruct |
-| Model format | Q4_K_M GGUF; approximately 491 MB |
-| Local runtime | llama.cpp b12244, CPU, 4 threads |
-| Dataset source | EditAttack commonsense subset |
-| Sample | 20 records from the 100-record subset |
-| Recorded seed | 42 |
-| Comparisons | Direct and reworded questions, with and without added context |
-| Saved generation count | 80 |
-
-The public repository does not contain model weights, raw dataset claims, individual model responses, or the local inference pipeline. It reproduces the **web presentation**, not the full generation experiment. See [methodology](docs/METHODOLOGY.md) for the limits of the evidence.
-
-## Team
-
-| Role | Name | USN |
-|---|---|---|
-| Team Leader | Solanki Om Narendra | 24BTRCL190 |
-| Team Member | Jayansh Jain | 24BTRCL088 |
-| Team Member | Manashwi Shawarn | 24BTRCL116 |
-
-**Class:** CSE-AIML-B  
-**Faculty:** Divyanshu Prakash
-
-## Run locally
-
-Requirements: Node.js 22 or newer; Python 3 for the simple preview server.
-
-```sh
-git clone https://github.com/SOLANKYYY/context-lab.git
-cd context-lab
-npm run check
-npm run build
-python -m http.server 8000 --directory dist
-```
-
-Open **http://localhost:8000**. Stop the preview with **Ctrl+C**. The build uses Node's built-in modules and has no third-party package dependencies.
-
-## Deploy to Vercel
-
-Import **SOLANKYYY/context-lab** from [Vercel's new-project page](https://vercel.com/new).
+## What we actually ran
 
 | Setting | Value |
 |---|---|
-| Framework Preset | Other |
-| Root Directory | Repository root |
-| Build Command | `npm run build` |
-| Output Directory | `dist` |
-| Environment variables | None |
+| Model | Qwen2.5-0.5B-Instruct, Q4_K_M |
+| Runtime | llama.cpp b12244, completion mode, manual ChatML template |
+| Examples | 3 convenience examples |
+| Conditions | No-context factual; true/false context × factual/attribution |
+| Saved generations | 15 (5 per example) |
+| Sampling | Temperature 0 (greedy); seed 42 passed to the runtime |
+| Limits | 96 output tokens, context 2048, 4 CPU threads |
+| Human evaluation | Not completed |
+| Weight editing | None |
 
-Build and output settings are included in [vercel.json](vercel.json). After deployment, share the production URL assigned by Vercel. No live deployment URL has been verified in this documentation.
+The fixed system instruction explicitly asks the model to distinguish factual truth from a statement's claim. This is part of the experiment, not evidence that a defense was improved.
 
-More detail: [deployment and troubleshooting](docs/DEPLOYMENT.md).
+## Observations, including failures
 
-## Repository layout
+- **Earth:** false context produces a factual answer of “The Earth is round.” The attribution answer reports the flat-Earth claim.
+- **France:** all five answers say Paris. With a false Berlin statement, the attribution request is not followed.
+- **Water:** the factual response under false context says H2O and the attribution response reports CO2. The baseline incorrectly says water has no chemical formula.
 
-```text
-context-lab/
-├── index.html             # Page structure and labelled examples
-├── style.css              # Responsive styles
-├── app.js                 # Saved-result cards and charts
-├── examples.js            # Example selector, toggle, matcher, download
-├── public_summary.json    # Preliminary aggregate results
-├── build.mjs              # Copies five public assets into dist/
-├── package.json           # Syntax-check and build commands
-├── vercel.json            # Hosting configuration
-├── docs/
-│   ├── METHODOLOGY.md
-│   ├── FACULTY_DEMO.md
-│   └── DEPLOYMENT.md
-└── README.md
-```
+Mentioning a target string is only a lexical diagnostic. It is not a harm, accuracy, or endorsement score. Explanatory notes on the website are not independent human labels.
 
-## Academic project status
+## Proposed extension
+Separate task-following from factual endorsement when evaluating context changes. Keep a five-condition design and use two independent human reviewers. A proposed larger set of 12 reviewed examples would produce 60 outputs, but **that larger study has not been run**. This is a student evaluation extension, not a claim of a new algorithm or proven research novelty.
 
-The web demo is available in this repository. The Part A proposal is saved separately in the local assignment folder. Part B and C report sources are drafts; final report PDFs and a genuine plagiarism report are still pending. This website does not replace those submissions.
+The paper examines model editing using ROME, fine-tuning, and an in-context editing baseline on much larger models. Our prompt-context demonstration does not reproduce those full experiments.
 
-Before final reporting, review prompt formatting, validate dataset labels, assess model answers semantically, and document the reproducible experimental protocol. No human endorsement labels or validated final harm scores are claimed here.
+## Run the website
+Use Node.js 24:
 
-## References and acknowledgements
+~~~sh
+npm run check
+npm run build
+python -m http.server 8080 --directory site-dist
+~~~
 
-- Chen et al., **Can Editing LLMs Inject Harm?**, arXiv:2407.20224, version 4; accepted to AAAI 2026. [Paper](https://arxiv.org/abs/2407.20224v4).
-- Authors' **EditAttack** code and dataset. [Source repository](https://github.com/baixianghuang/editing-attack).
-- **Qwen2.5-0.5B-Instruct-GGUF**. [Official model repository](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF).
-- **llama.cpp**. [Runtime repository](https://github.com/ggml-org/llama.cpp).
+Open http://localhost:8080. Do not open index.html directly with a file URL: the browser needs HTTP to fetch the evidence JSON.
 
-This is a student adaptation with a smaller model and a limited evaluation; it is not the authors' official implementation or a full reproduction of their findings.
+Only four files enter the public build: index.html, style.css, app.js, and demo_results.json. Build validation checks condition completeness, prompt pairing, nonempty answers, and exclusion of raw runtime logs. There are no production npm dependencies.
+
+## Source layout
+- index.html / style.css / app.js — accessible responsive experiment viewer.
+- demo_results.json — public export of the real recorded runs.
+- scripts/validate-demo.mjs — evidence consistency validation.
+- build.mjs / vercel.json — static Vercel build.
+- docs/ — method, demonstration, and deployment instructions.
+
+Earlier files such as public_summary.json and examples.js are legacy work retained for history. They are not used or deployed by the current viewer; their old counts must not be combined with the present 15-output demonstration.
+
+## Team
+| Role | Name | USN |
+|---|---|---|
+| Team leader | Solanki Om Narendra | 24BTRCL190 |
+| Member | Jayansh Jain | 24BTRCL088 |
+| Member | Manashwi Shawarn | 24BTRCL116 |
+
+Class: CSE-AIML-B. Faculty: Divyanshu Prakash.
+
+## References
+- [Can Editing LLMs Inject Harm?](https://arxiv.org/abs/2407.20224)
+- [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct)
+- [Official Qwen GGUF model](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF)
+- [llama.cpp](https://github.com/ggml-org/llama.cpp)

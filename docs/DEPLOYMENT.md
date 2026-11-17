@@ -1,41 +1,19 @@
-# Vercel deployment
+# Existing Vercel deployment
 
-## Import the repository
+Public site: https://context-lab-ashen.vercel.app
+Repository: https://github.com/SOLANKYYY/context-lab
+Project: context-lab
+Production branch: main
 
-1. Sign in to [Vercel](https://vercel.com/new) with the GitHub account that can access **SOLANKYYY/context-lab**.
-2. Import that repository as a new project.
-3. Keep the project rooted at the top level of the repository.
-4. Use **Other** for the framework, **npm run build** for the build command, and **dist** for the output directory.
-5. Leave environment variables empty and deploy.
+The project uses a dependency-free static build:
+- Node.js: 24.x.
+- Framework preset: Other.
+- Build command: npm run build.
+- Output directory: site-dist.
+- No environment variables, model downloads, or inference server.
 
-The build and output directory are already specified in [vercel.json](../vercel.json). The app does not need a database, model weights, or inference credentials.
+Run npm run check and npm run build before publishing. The build includes only index.html, style.css, app.js, and demo_results.json. Old local dist folders and model data are not deployed.
 
-See [Vercel's official GitHub integration guide](https://vercel.com/docs/git/vercel-for-github) for the import and automatic deployment workflow.
+Push a reviewed commit to main to trigger the Git integration, then check the deployment status. A Git deployment can also be triggered explicitly against the exact commit in the existing project. Verify the production domain after the deployment is READY.
 
-## Verify before sharing
-
-- Open the production URL Vercel assigns to the deployment.
-- Test the example selector and added-claim toggle.
-- Check the custom target-string exercise.
-- Confirm that the charts load and the summary download works.
-- Open the URL in a signed-out or private browser window to confirm your faculty can access it.
-- Add the verified production URL to the README after deployment.
-
-No production URL has been verified in this repository's documentation.
-
-## Updating the site
-
-For a standard Git-connected project, pushes to the configured production branch trigger a new deployment. This repository uses `main` for its published files. Check the Vercel project's Git settings and deployment status when confirming an update.
-
-## Troubleshooting
-
-| Symptom | What to check |
-|---|---|
-| Build command cannot find package.json | Root Directory must be the repository root. |
-| Build succeeds but the site is missing | Output Directory must be dist. |
-| Charts show a loading error | Confirm public_summary.json was included in the output; inspect the browser's network errors. |
-| Old content is visible | Check the latest production deployment commit and refresh the page. |
-| Local page opens but charts do not load | Serve dist with an HTTP server instead of opening index.html directly. |
-| A visitor sees a sign-in screen | Review project deployment-protection settings and share the intended public production URL. |
-
-The public site is static. A deployment cannot turn the scripted examples into live model inference; that would require a separately implemented inference service.
+The online interface replays a recorded snapshot. New local model generations do not automatically become public: export a reviewed, sanitized demo_results.json and redeploy it.

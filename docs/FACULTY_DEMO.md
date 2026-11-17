@@ -1,46 +1,16 @@
-# Faculty demonstration guide
+# Faculty demonstration (about 3 minutes)
 
-Allow approximately three minutes. Open the deployed website, or run the local preview described in the README.
+Open https://context-lab-ashen.vercel.app.
 
-## 1. Explain the question
+1. State the research question: “Can editing or adding context change a language model's behavior? Our demo focuses on context and the intent of the question.”
+2. Select **Earth shape → False statement**. Show the two actual recorded answers. Explain that answering what a statement claims is different from asserting that it is true.
+3. Switch to **True statement** to show the control. Then select **Capital of France → False statement**. The model gives Paris even when asked to report the Berlin statement: task-following failed.
+4. Select **Water formula → False statement**. Show both answers and the incorrect no-context baseline. This demonstrates why we must also check baseline competence.
+5. Expand **Inspect all five conditions and exact prompts**. Show the system instruction, timestamps, and saved answers.
+6. Download the evidence and explain the proposed extension: separate task-following and factual endorsement using two independent reviewers.
 
-“Our project asks whether an extra misleading statement changes a small model's answer. We compare answers with and without that statement.”
+Say clearly: “These are 15 actual local model outputs replayed online. No model runs in this website. We changed the prompt context, not the model's weights. The full paper reproduction and larger human-reviewed experiment are not completed.”
 
-Explain that this website combines saved preliminary experiment counts with scripted examples for teaching.
+The local Mini Model folder supplied with the project includes app.py and Start_Demo.cmd for generating new answers when the existing model/runtime are present on the laptop. The public repository does not contain the model weights.
 
-## 2. Show the notebook example
-
-Choose **A fictional notebook**. With the claim disabled, the illustrative answer says blue. Enable **Add the competing claim** and the illustrative answer says orange.
-
-Explain: “This toggle is a scripted illustration. It is not sending a new request to the language model.”
-
-## 3. Show the metric limitation
-
-Choose **When the metric gets confused** and enable the claim. The displayed answer rejects 5, but the target still matches.
-
-Explain: “A word match cannot tell whether the answer agrees. Human semantic review is needed.”
-
-## 4. Try your own text
-
-In the matching exercise, keep the target as `5` and type `The answer is 4, not 5.`. Click **Check exact match**.
-
-Then remove `5` from the sentence and check again. This exercise performs a real browser string comparison, without model inference or sending the entered text to a server.
-
-## 5. Open the measured results
-
-Show the four comparison groups and use **Download experiment summary**.
-
-Explain: “The saved run has 80 outputs across 20 records. These percentages count target mentions. They are preliminary, and protocol checks and semantic annotation remain pending.”
-
-## Questions you may be asked
-
-| Question | Accurate answer |
-|---|---|
-| Did you train a new model? | No. The local run used an existing pretrained Qwen model. |
-| Does the website run the model? | No. It displays saved aggregate results and scripted examples. |
-| Does this change model weights? | No. The study adds context to the input. |
-| Why a small model? | The project was planned for a 16 GB RAM computer with limited storage. |
-| Does 90% mean 90% harmful answers? | No. It means 18 of 20 direct-question outputs contained the target string. |
-| Is the full research report ready? | The final report PDFs and validation work are still pending. |
-
-Only describe work that you understand and can demonstrate. Keep the limitations visible when presenting the charts.
+Team leader: Solanki Om Narendra (24BTRCL190). Members: Jayansh Jain (24BTRCL088), Manashwi Shawarn (24BTRCL116). Class CSE-AIML-B.

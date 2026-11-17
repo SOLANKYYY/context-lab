@@ -1,10 +1,10 @@
-import { mkdir, copyFile, readFile } from 'node:fs/promises';
+import { mkdir, copyFile, readdir } from 'node:fs/promises';
+import './scripts/validate-demo.mjs';
 const root = new URL('./', import.meta.url);
-const output = new URL('./dist/', root);
-const summary = JSON.parse(await readFile(new URL('public_summary.json', root), 'utf8'));
-if (!summary.metrics?.direct || !summary.metrics?.paraphrase) throw new Error('Missing experiment groups');
+const output = new URL('./site-dist/', root);
+const files = ['index.html', 'style.css', 'app.js', 'demo_results.json'];
 await mkdir(output, { recursive: true });
-for (const file of ['index.html', 'style.css', 'app.js', 'examples.js', 'public_summary.json']) {
-  await copyFile(new URL(file, root), new URL(file, output));
-}
-console.log('Built Context Lab into dist/');
+const unexpected = (await readdir(output)).filter(file => !files.includes(file));
+if (unexpected.length) throw new Error('Unexpected files in site-dist: ' + unexpected.join(', '));
+for (const file of files) await copyFile(new URL(file, root), new URL(file, output));
+console.log('Built four public assets into site-dist/. Model weights and local logs are excluded.');
